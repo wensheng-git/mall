@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wensheng.mapper.MallOrderMapper">
+
+    <resultMap id="BaseResultMap" type="com.wensheng.entity.MallOrder">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="orderNo" column="order_no" jdbcType="BIGINT"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="shippingId" column="shipping_id" jdbcType="INTEGER"/>
+            <result property="payment" column="payment" jdbcType="DECIMAL"/>
+            <result property="paymentType" column="payment_type" jdbcType="INTEGER"/>
+            <result property="postage" column="postage" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="paymentTime" column="payment_time" jdbcType="TIMESTAMP"/>
+            <result property="sendTime" column="send_time" jdbcType="TIMESTAMP"/>
+            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+            <result property="closeTime" column="close_time" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,order_no,user_id,
+        shipping_id,payment,payment_type,
+        postage,status,payment_time,
+        send_time,end_time,close_time,
+        create_time,update_time
+    </sql>
+    <insert id="insertSelective">
+        insert into mall_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="orderNo != null">order_no,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="shippingId != null">shipping_id,</if>
+            <if test="payment != null">payment,</if>
+            <if test="paymentType != null">payment_type,</if>
+            <if test="postage != null">postage,</if>
+            <if test="status != null">status,</if>
+            <if test="paymentTime != null">payment_time,</if>
+            <if test="sendTime != null">send_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="closeTime != null">close_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=INTEGER},</if>
+            <if test="orderNo != null">#{orderNo,jdbcType=BIGINT},</if>
+            <if test="userId != null">#{userId,jdbcType=INTEGER},</if>
+            <if test="shippingId != null">#{shippingId,jdbcType=INTEGER},</if>
+            <if test="payment != null">#{payment,jdbcType=DECIMAL},</if>
+            <if test="paymentType != null">#{paymentType,jdbcType=INTEGER},</if>
+            <if test="postage != null">#{postage,jdbcType=INTEGER},</if>
+            <if test="status != null">#{status,jdbcType=INTEGER},</if>
+            <if test="paymentTime != null">#{paymentTime,jdbcType=TIMESTAMP},</if>
+            <if test="sendTime != null">#{sendTime,jdbcType=TIMESTAMP},</if>
+            <if test="endTime != null">#{endTime,jdbcType=TIMESTAMP},</if>
+            <if test="closeTime != null">#{closeTime,jdbcType=TIMESTAMP},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mall_order
+        where
+        user_id = #{userId,jdbcType=NUMERIC}
+    </select>
+    <select id="selectByOrderNo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mall_order
+        where
+        order_no = #{orderNo,jdbcType=NUMERIC}
+    </select>
+
+    <update id="updateSelective">
+        update mall_order
+        <set>
+            <if test="orderNo != null">order_no=#{orderNo,jdbcType=NUMERIC},</if>
+            <if test="userId != null">user_id=#{userId,jdbcType=NUMERIC},</if>
+            <if test="shippingId != null">shipping_id=#{shippingId,jdbcType=NUMERIC},</if>
+            <if test="payment != null">payment=#{payment,jdbcType=DECIMAL},</if>
+            <if test="paymentType != null">payment_type=#{paymentType,jdbcType=NUMERIC},</if>
+            <if test="postage != null">postage=#{postage,jdbcType=NUMERIC},</if>
+            <if test="status != null">status=#{status,jdbcType=NUMERIC},</if>
+            <if test="paymentTime != null">payment_time=#{paymentTime,jdbcType=TIMESTAMP},</if>
+            <if test="sendTime != null">send_time=#{sendTime,jdbcType=TIMESTAMP},</if>
+            <if test="endTime != null">end_time=#{endTime,jdbcType=TIMESTAMP},</if>
+            <if test="closeTime != null">close_time=#{closeTime,jdbcType=TIMESTAMP},</if>
+            <if test="createTime != null">create_time=#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateTime != null">update_time=#{updateTime,jdbcType=TIMESTAMP},</if>
+        </set>
+        where id = #{id,jdbcType=NUMERIC}
+    </update>
+</mapper>

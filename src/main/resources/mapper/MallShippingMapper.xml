@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wensheng.mapper.MallShippingMapper">
+
+    <resultMap id="BaseResultMap" type="com.wensheng.entity.MallShipping">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="receiverName" column="receiver_name" jdbcType="VARCHAR"/>
+            <result property="receiverPhone" column="receiver_phone" jdbcType="VARCHAR"/>
+            <result property="receiverMobile" column="receiver_mobile" jdbcType="VARCHAR"/>
+            <result property="receiverProvince" column="receiver_province" jdbcType="VARCHAR"/>
+            <result property="receiverCity" column="receiver_city" jdbcType="VARCHAR"/>
+            <result property="receiverDistrict" column="receiver_district" jdbcType="VARCHAR"/>
+            <result property="receiverAddress" column="receiver_address" jdbcType="VARCHAR"/>
+            <result property="receiverZip" column="receiver_zip" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,receiver_name,
+        receiver_phone,receiver_mobile,receiver_province,
+        receiver_city,receiver_district,receiver_address,
+        receiver_zip,create_time,update_time
+    </sql>
+
+    <insert id="insertByPrimaryKey" keyProperty="id" useGeneratedKeys="true">
+        insert
+          mall_shipping(user_id,receiver_name,
+        receiver_phone,receiver_mobile,receiver_province,
+        receiver_city,receiver_district,receiver_address,
+        receiver_zip)
+        values(#{userId},#{receiverName},#{receiverPhone},#{receiverMobile},#{receiverProvince},
+        #{receiverCity},#{receiverDistrict},#{receiverAddress},#{receiverZip})
+    </insert>
+
+    <delete id="deleteByIdAndUid" >
+        delete from mall_shipping
+        where id=#{id} and user_id=#{uid}
+    </delete>
+
+    <update id="updateByPrimaryKeySelective">
+        update mall_shipping
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="receiverName != null">
+                receiver_name = #{receiverName,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverPhone != null">
+                receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverMobile != null">
+                receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverProvince != null">
+                receiver_province = #{receiverProvince,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverCity != null">
+                receiver_city = #{receiverCity,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverDistrict != null">
+                receiver_district = #{receiverDistrict,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverAddress != null">
+                receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="receiverZip != null">
+                receiver_zip = #{receiverZip,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mall_shipping
+        where
+        user_id = #{userId,jdbcType=NUMERIC}
+    </select>
+    <select id="selectByIdAndUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mall_shipping
+        where
+        id = #{id,jdbcType=NUMERIC}
+        AND user_id = #{userId,jdbcType=NUMERIC}
+    </select>
+    <select id="selectByIdSet" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from mall_shipping
+        <where>
+            <if test="idSet.size() > 0">
+                id in
+                <foreach collection="idSet" item="item" index="index" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+</mapper>
